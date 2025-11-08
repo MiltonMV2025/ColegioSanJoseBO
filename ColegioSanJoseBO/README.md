@@ -103,26 +103,6 @@ Editar `appsettings.json`:
 }
 ```
 
-3. **Crear la base de datos**
-
-```bash
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
-
-4. **Ejecutar la aplicación**
-
-```bash
-dotnet run
-```
-
-O presionar **F5** en Visual Studio.
-
-## 🧪 Probar la Aplicación
-
-### 1. Acceso al Sistema
-
-La aplicación se abrirá en: `https://localhost:5001` o `http://localhost:5000`
 
 ### 2. Credenciales de Prueba
 
