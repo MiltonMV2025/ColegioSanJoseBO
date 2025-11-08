@@ -1,0 +1,72 @@
+@model List<DASALUD.Models.StudentSubject>
+
+@{
+    ViewData["Title"] = "Expedientes";
+}
+
+<h2 class="mb-3">Expedientes Académicos</h2>
+
+@if (Model.Any())
+{
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Grado</th>
+                        <th>Materia</th>
+                        <th>Maestro</th>
+                        <th>Calificación</th>
+                        <th>Observaciones</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var exp in Model)
+                    {
+                        var gradeClass = exp.FinalGrade >= 9 ? "success" :
+                                        exp.FinalGrade >= 7 ? "info" :
+                                        exp.FinalGrade >= 6 ? "warning" : "danger";
+                        <tr>
+                            <td><strong>@exp.Student.Name @exp.Student.Surname</strong></td>
+                            <td>@exp.Student.Degree</td>
+                            <td>@exp.Subject.SubjectCode - @exp.Subject.SubjectName</td>
+                            <td>@exp.Subject.Teacher.Name @exp.Subject.Teacher.Surname</td>
+                            <td>
+                                @if (exp.FinalGrade.HasValue)
+                                {
+                                    <span class="badge bg-@gradeClass">@exp.FinalGrade.Value.ToString("F1")</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Sin calificar</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(exp.Observations))
+                                {
+                                    @(exp.Observations.Length > 50 ? exp.Observations.Substring(0, 50) + "..." : exp.Observations)
+                                }
+                                else
+                                {
+                                    <em class="text-muted">Sin observaciones</em>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@exp.Id" class="btn btn-sm btn-warning">Editar</a>
+                                <a asp-action="Delete" asp-route-id="@exp.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        No hay expedientes registrados.
+    </div>
+}

@@ -1,0 +1,48 @@
+@model DASALUD.Controllers.ExpedienteViewModel
+
+@{
+    ViewData["Title"] = "Editar Expediente";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>Editar Expediente</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <strong>Estudiante:</strong> @Model.StudentName<br />
+                    <strong>Materia:</strong> @Model.SubjectName
+                </div>
+
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="FinalGrade" class="form-label"></label>
+                        <input asp-for="FinalGrade" class="form-control" type="number" step="0.1" min="0" max="10" />
+                        <span asp-validation-for="FinalGrade" class="text-danger"></span>
+                        <small class="form-text text-muted">Escala de 0 a 10</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Observations" class="form-label"></label>
+                        <textarea asp-for="Observations" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Observations" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

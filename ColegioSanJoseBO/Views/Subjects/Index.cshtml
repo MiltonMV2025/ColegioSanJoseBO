@@ -1,0 +1,49 @@
+@model List<DASALUD.Models.Subject>
+
+@{
+    ViewData["Title"] = "Materias";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Materias</h2>
+    <a asp-action="Create" class="btn btn-primary">Nueva Materia</a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Maestro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var subject in Model)
+                    {
+                        <tr>
+                            <td><strong>@subject.SubjectCode</strong></td>
+                            <td>@subject.SubjectName</td>
+                            <td>@subject.Teacher.Name @subject.Teacher.Surname</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@subject.Id" class="btn btn-sm btn-info">Ver</a>
+                                <a asp-action="Edit" asp-route-id="@subject.Id" class="btn btn-sm btn-warning">Editar</a>
+                                <a asp-action="Delete" asp-route-id="@subject.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        No hay materias registradas. <a asp-action="Create">Crear la primera materia</a>.
+    </div>
+}

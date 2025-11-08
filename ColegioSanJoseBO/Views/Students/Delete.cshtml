@@ -1,0 +1,45 @@
+@model DASALUD.ViewModels.StudentViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Estudiante";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4><i class="bi bi-exclamation-triangle"></i> Eliminar Estudiante</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <strong>¡Advertencia!</strong> Esta acción eliminará permanentemente al estudiante y todas sus calificaciones.
+                    </div>
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Nombre Completo:</dt>
+                        <dd class="col-sm-9">@Model.FullName</dd>
+
+                        <dt class="col-sm-3">Grado:</dt>
+                        <dd class="col-sm-9">@Model.Degree</dd>
+
+                        <dt class="col-sm-3">Fecha de Nacimiento:</dt>
+                        <dd class="col-sm-9">@Model.BirthDate.ToString("dd/MM/yyyy")</dd>
+                    </dl>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Confirmar Eliminación
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

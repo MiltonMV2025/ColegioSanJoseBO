@@ -1,0 +1,97 @@
+@model DASALUD.ViewModels.StudentDetailsViewModel
+
+@{
+    ViewData["Title"] = $"Detalles - {Model.FullName}";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>@Model.FullName</h4>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">Editar</a>
+                <a asp-action="Index" class="btn btn-secondary btn-sm">Volver</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Nombre:</strong> @Model.Name</p>
+                <p><strong>Apellido:</strong> @Model.Surname</p>
+                <p><strong>Fecha de Nacimiento:</strong> @Model.BirthDate.ToString("dd/MM/yyyy")</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Edad:</strong> @Model.Age años</p>
+                <p><strong>Grado:</strong> @Model.Degree</p>
+                <p><strong>Promedio:</strong> <span class="badge bg-primary">@Model.AverageGrade.ToString("F1")</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5>Materias y Calificaciones</h5>
+            <a asp-action="AssignSubject" asp-route-id="@Model.Id" class="btn btn-success btn-sm">Asignar Materia</a>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (Model.Subjects.Any())
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Materia</th>
+                        <th>Profesor</th>
+                        <th>Calificación</th>
+                        <th>Observaciones</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var subject in Model.Subjects)
+                    {
+                        var gradeClass = subject.FinalGrade >= 9 ? "success" : 
+                                        subject.FinalGrade >= 7 ? "info" : 
+                                        subject.FinalGrade >= 6 ? "warning" : "danger";
+                        
+                        <tr>
+                            <td><strong>@subject.SubjectCode</strong></td>
+                            <td>@subject.SubjectName</td>
+                            <td>@subject.TeacherName</td>
+                            <td>
+                                @if (subject.FinalGrade.HasValue)
+                                {
+                                    <span class="badge bg-@gradeClass">@subject.FinalGrade.Value.ToString("F1")</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Sin calificar</span>
+                                }
+                            </td>
+                            <td>@(subject.Observations ?? "Sin observaciones")</td>
+                            <td>
+                                <a asp-action="EditGrade" asp-route-id="@subject.StudentSubjectId" class="btn btn-sm btn-warning">Editar</a>
+                                <form asp-action="RemoveSubject" method="post" class="d-inline"
+                                      onsubmit="return confirm('¿Está seguro de remover esta materia?');">
+                                    <input type="hidden" name="id" value="@subject.StudentSubjectId" />
+                                    <input type="hidden" name="studentId" value="@Model.Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger">Remover</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Este estudiante no tiene materias asignadas. <a asp-action="AssignSubject" asp-route-id="@Model.Id">Asignar materias</a>.
+            </div>
+        }
+    </div>
+</div>

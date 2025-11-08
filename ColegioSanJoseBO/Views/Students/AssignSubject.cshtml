@@ -1,0 +1,74 @@
+@model DASALUD.ViewModels.AssignSubjectViewModel
+
+@{
+    ViewData["Title"] = "Asignar Materia";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Asignar Materia a @Model.StudentName</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.AvailableSubjects.Any())
+                    {
+                        <form asp-action="AssignSubject" method="post">
+                            <input type="hidden" asp-for="StudentId" />
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                            <div class="mb-3">
+                                <label asp-for="SubjectId" class="form-label"></label>
+                                <select asp-for="SubjectId" class="form-select">
+                                    <option value="">Seleccione una materia</option>
+                                    @foreach (var subject in Model.AvailableSubjects)
+                                    {
+                                        <option value="@subject.Id">@subject.DisplayText</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="SubjectId" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="FinalGrade" class="form-label"></label>
+                                <input asp-for="FinalGrade" class="form-control" type="number" step="0.1" min="0" max="10" />
+                                <span asp-validation-for="FinalGrade" class="text-danger"></span>
+                                <small class="form-text text-muted">Opcional: puede asignar la calificación más tarde. Escala de 0 a 10</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Observations" class="form-label"></label>
+                                <textarea asp-for="Observations" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Observations" class="text-danger"></span>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a asp-action="Details" asp-route-id="@Model.StudentId" class="btn btn-secondary">
+                                    Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Asignar Materia
+                                </button>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            No hay materias disponibles para asignar. 
+                            El estudiante ya está inscrito en todas las materias disponibles.
+                        </div>
+                        <a asp-action="Details" asp-route-id="@Model.StudentId" class="btn btn-secondary">
+                            Volver
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

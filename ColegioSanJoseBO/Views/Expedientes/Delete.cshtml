@@ -1,0 +1,51 @@
+@model DASALUD.Models.StudentSubject
+
+@{
+    ViewData["Title"] = "Eliminar Expediente";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4>Eliminar Expediente</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <strong>¡Advertencia!</strong> Esta acción eliminará el expediente permanentemente.
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">Estudiante:</dt>
+                    <dd class="col-sm-8">@Model.Student.Name @Model.Student.Surname</dd>
+
+                    <dt class="col-sm-4">Materia:</dt>
+                    <dd class="col-sm-8">@Model.Subject.SubjectName</dd>
+
+                    <dt class="col-sm-4">Calificación:</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.FinalGrade.HasValue)
+                        {
+                            @Model.FinalGrade.Value.ToString("F2")
+                        }
+                        else
+                        {
+                            <text>Sin calificar</text>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-4">Observaciones:</dt>
+                    <dd class="col-sm-8">@(Model.Observations ?? "Sin observaciones")</dd>
+                </dl>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

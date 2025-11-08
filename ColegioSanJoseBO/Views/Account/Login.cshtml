@@ -1,0 +1,107 @@
+﻿@using DASALUD.ViewModels
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="account-wrap">
+    <div class="account-container">
+        <div class="brand-side">
+            <div class="brand-logo">
+                <span class="brand-logo-text">SJ</span>
+            </div>
+            <h1 class="brand-title">Colegio San José</h1>
+            <p class="brand-subtitle">Sistema de Gestión Académica</p>
+        </div>
+
+        <div class="account-box">
+            <h2>Iniciar sesión</h2>
+            <p class="account-subtitle">
+                Ingrese su usuario y contraseña para acceder al sistema.
+            </p>
+
+            <form asp-action="Login" method="post" id="loginForm">
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary-custom">Iniciar sesión</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml"); }
+
+    <script>
+        @if (ViewData.ModelState.ErrorCount > 0 && !ViewData.ModelState.IsValid)
+        {
+            var errors = ViewData.ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+
+            if (errors.Any())
+            {
+                var errorMessage = string.Join("<br>", errors);
+                <text>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de autenticación',
+                        html: '@Html.Raw(errorMessage)',
+                        confirmButtonText: 'Entendido',
+                        confirmButtonColor: '#005792',
+                        customClass: {
+                            popup: 'swal-custom',
+                            title: 'swal-title-custom',
+                            confirmButton: 'swal-button-custom'
+                        }
+                    });
+                </text>
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            var username = document.querySelector('input[name="Username"]').value.trim();
+            var password = document.querySelector('input[name="Password"]').value.trim();
+            
+            if (!username || !password) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos requeridos',
+                    text: 'Por favor, complete todos los campos.',
+                    confirmButtonText: 'Entendido',
+                    confirmButtonColor: '#005792'
+                });
+            }
+        });
+    </script>
+
+    <style>
+        .swal-custom {
+            font-family: 'Geist', sans-serif;
+        }
+        .swal-title-custom {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .swal-button-custom {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 24px;
+            border-radius: 6px;
+        }
+    </style>
+}

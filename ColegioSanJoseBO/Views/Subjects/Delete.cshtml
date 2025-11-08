@@ -1,0 +1,42 @@
+@model DASALUD.Models.Subject
+
+@{
+    ViewData["Title"] = "Eliminar Materia";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4>Eliminar Materia</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <strong>¡Advertencia!</strong> Esta acción eliminará la materia y todos los registros de calificaciones.
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">Código:</dt>
+                    <dd class="col-sm-8">@Model.SubjectCode</dd>
+
+                    <dt class="col-sm-4">Nombre:</dt>
+                    <dd class="col-sm-8">@Model.SubjectName</dd>
+
+                    <dt class="col-sm-4">Maestro:</dt>
+                    <dd class="col-sm-8">@Model.Teacher.Name @Model.Teacher.Surname</dd>
+
+                    <dt class="col-sm-4">Estudiantes:</dt>
+                    <dd class="col-sm-8">@Model.StudentSubjects.Count inscritos</dd>
+                </dl>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

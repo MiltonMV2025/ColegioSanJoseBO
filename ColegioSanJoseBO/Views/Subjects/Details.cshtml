@@ -1,0 +1,72 @@
+@model DASALUD.Models.Subject
+
+@{
+    ViewData["Title"] = "Detalles de Materia";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>@Model.SubjectName</h4>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">Editar</a>
+                <a asp-action="Index" class="btn btn-secondary btn-sm">Volver</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Código:</dt>
+            <dd class="col-sm-9">@Model.SubjectCode</dd>
+
+            <dt class="col-sm-3">Nombre:</dt>
+            <dd class="col-sm-9">@Model.SubjectName</dd>
+
+            <dt class="col-sm-3">Maestro:</dt>
+            <dd class="col-sm-9">@Model.Teacher.Name @Model.Teacher.Surname</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Estudiantes Inscritos (@Model.StudentSubjects.Count)</h5>
+    </div>
+    <div class="card-body">
+        @if (Model.StudentSubjects.Any())
+        {
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Grado</th>
+                        <th>Calificación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ss in Model.StudentSubjects)
+                    {
+                        <tr>
+                            <td>@ss.Student.Name @ss.Student.Surname</td>
+                            <td>@ss.Student.Degree</td>
+                            <td>
+                                @if (ss.FinalGrade.HasValue)
+                                {
+                                    <span class="badge bg-primary">@ss.FinalGrade.Value.ToString("F2")</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Sin calificar</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No hay estudiantes inscritos en esta materia.</p>
+        }
+    </div>
+</div>

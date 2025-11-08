@@ -1,0 +1,59 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: #f8f9fa;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  color: #005792 !important;
+}
+
+.nav-link {
+  color: #495057 !important;
+}
+
+.nav-link:hover {
+  color: #005792 !important;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  line-height: 60px;
+  background-color: white;
+  border-top: 1px solid #dee2e6;
+}
+
+.btn-primary {
+  background-color: #005792;
+  border-color: #005792;
+}
+
+.btn-primary:hover {
+  background-color: #003d66;
+  border-color: #003d66;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table {
+  font-size: 14px;
+}
+
+.badge {
+  padding: 0.5em 0.75em;
+}
